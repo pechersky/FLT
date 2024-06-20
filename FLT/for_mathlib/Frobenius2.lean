@@ -345,10 +345,7 @@ lemma Frob_Q_eq_pow_card (x : B) : Frob A Q isGalois P x - x^(Fintype.card (A⧸
     rw [← smul_sub]
     nth_rw 3 [ ← fact3]
     suffices (x - y A Q ^ n) ∈ Q by
-      exact?
-    rw [smul_mem_smul]
-    simp
-    skip
+      sorry
     sorry
 
 /- maths proof:
