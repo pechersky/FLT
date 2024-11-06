@@ -7,7 +7,8 @@ This is an active miniproject.
 \section{The goal}
 
 At the time of writing, mathlib does not have a definition of the adeles of
-a number field. There are several goals to this miniproject.
+a number field, but it's on the way **TODO** add github PR.
+There are several goals to this miniproject.
 
 \begin{itemize}
   \item Define the adeles $\A_K$ of a number field~$K$ and
@@ -18,23 +19,26 @@ a number field. There are several goals to this miniproject.
   \item Prove that $K \subseteq \A_K$ is a discrete subgoup and the quotient is compact.
 \end{itemize}
 
-We briefly go through the basic definitions. A cheap definition of the finite
+We briefly go through the basic definitions. Let $K$ be a number field.
+A cheap definition of the finite
 adeles $\A_K^\infty$ of $K$ is $K\otimes_{\Z}\Zhat$, where $\Zhat$ is
 the profinite completion of the integers. A cheap definition of the infinite adeles
 $K_\infty$ of $K$ is $K\otimes_{\Q}\R$, and a cheap definition of the adeles
 of $K$ is $\A_K^\infty\times K_\infty$. However in the literature different definitions
 are often given. The finite adeles of $K$ are usually defined
-as the so-called restricted product $\prod'_{\mathfrak{p}}K_{\mathfrak{p}}$ over the completions
+as the so-called restricted product $\prod'_{\mathfrak{p}}K_{\mathfrak{p}}$ of the completions
 $K_{\mathfrak{p}}$ of $K$ at all maximal ideals $\mathfrak{p}\subseteq\mathcal{O}_K$ of the
 integers of $K$. Here the restricted product is the subset of $\prod_{\mathfrak{p}}K_{\mathfrak{p}}$
-consisting of elements which are in $\mathcal{O}_{K,\mathfrak{p}}$ for all but finitely many
-$\mathfrak{p}$.
-Mathlib already has the finite adeles and the proof that they're a topological ring;
+consisting of elements which are in the local integer rings $\mathcal{O}_{K,\mathfrak{p}}$ for all
+but finitely many $\mathfrak{p}$.
+Mathlib already has a definition of the finite adeles and the proof that they're a topological ring;
 in fact the construction in mathlib works for any Dedekind domain.
 
 Similarly the infinite adeles of a number field
 are usually defined as $\prod_v K_v$,
-the product running over the archimedean completions of~$K$.
+the product running over the archimedean completions of~$K$. Mathlib does not
+currently have the definition of the infinite adeles of a number field, but it's
+on the way **TODO** Mercuri PR.
 
 \section{Current status}
 
@@ -46,18 +50,14 @@ in mathlib. We quote some of it here.
 
 \section{Results about adeles of a number field that we await}
 
-Let $K$ be a number field. Right now mathlib has the finite adeles $\A_K^\infty$ of $K$,
-with its topological ring structure. It does not however have the infinite adeles $K_\infty$.
-There are PRs by Salvatore Mercuri currently
-in progress for defining this topological ring. Once we have it, the full ring of
-adeles $\A_K$ is defined as $\A_K:=\A_K^\infty\times K_\infty$; it is a topological ring
-and also a $K$-algebra. Once Mercuri's mathlib
+Let $K$ be a number field. As I mentioned above, Mercuri has the definition of
+the adeles $\A_K$ of $K$. Once Mercuri's mathlib
 PR~\href{https://github.com/leanprover-community/mathlib4/pull/16485}{16485} is merged, we will have
 all this available to us; until then, we sorry the definitions and these facts.
 
-Mercuri's work isn't however enough for us; we also need several theorems about this topological
-$K$-algebra. These lemmas are essentially impossible to work on until we have the definition in
-mathlib. We state them here without proof.
+Mercuri's work isn't however enough for us; we also need several theorems about the
+topological $K$-algebra $\A_K$. These lemmas are essentially impossible to work on until we have
+the definition in mathlib. We hence state them here without proof.
 
 \begin{theorem}
   \lean{NumberField.AdeleRing.discrete}
@@ -77,31 +77,37 @@ mathlib. We state them here without proof.
   The topological ring $\A_K$ is locally compact.
 \end{theorem}
 
-Mercuri has already proved local compactness in his repo.
+Mercuri has already proved local compactness (the last theorem above) in his repo.
 As far as I know, the other
-two theorems remain unformalised (but as I've mentioned, we cannot start on them until
+two theorems remain unformalised, but as I've mentioned, we cannot start on them until
 we have a definition of the adele ring in this project, and I would prefer
-that this were achieved by upstreaming Mercuri's work to mathlib).
+that this were achieved by upstreaming Mercuri's work to mathlib. When this has
+happened I will be revisiting this section.
 
 However, there is something that we can do here even before Mercuri's work
 is upstreamed: one proof I know that of discreteness
 and cocompactness of $K$ in $\A_K$ reduces to the case $K=\Q$, using the ``canonical''
 isomorphism $\A_K\cong\A_{\Q}\otimes_{\Q}K$. This can be proved by checking it for finite
-and infinite adeles separately, so one thing which we can work on now is the finite case.
-We explain this in the next section.
+and infinite adeles separately, so one thing which we can work on now is the finite case,
+as mathlib already has finite adeles. We explain the details in the next section.
 
 \section{Results about finite adeles which we can work on now}
 
 Adeles are arithmetic objects, attached to global fields like number fields.
 However (as I learnt from Maria Ines de Frutos Fernandez) finite adeles are algebraic
-objects, as they can be attached to any Dedekind domain. The ``theorem'' that we need
-is the following:
+objects, as they can be attached to any Dedekind domain. We are interested here in how
+the definition changes under a finite separable extension. We put ourselves in
+the so-called ``AKLB set-up''. So $A$ is a Dedekind domain with field of fractions $K$,
+$L/K$ is a finite separable extension, and $B$ is the integral closure of~$A$
+in~$L$. We write $\mathbb{A}_{A,K}^\infty$ and $\mathbb{A}_{B,L}$ for the finite
+adeles of $A$ and $B$ respectively.
+
+The ``theorem'' that we need is the following:
 
 \begin{theorem}
-  Let~$A$ be a Dedekind domain with field of fractions~$K$, and write $\mathbb{A}_{A,K}^\infty$
-  for the finite adeles of $A$. Let~$L/K$ be a finite
-  separable extension, and let $B$ be the integral closure of~$A$ in~$L$.
-  Then there's a ``canonical'' isomorphism $\mathbb{A}_{R,K}^\infty \otimes_KL\mathbb{A}_{B,L}^\infty$.
+  Then there's a ``canonical'' $L$-algebra isomorphism
+  $\mathbb{A}_{A,K}^\infty \otimes_KL\cong\mathbb{A}_{B,L}^\infty$
+  which is also a homeomorphism.
 \end{theorem}
 
 Of course, this isn't a theorem; this is actually a \emph{definition} (the map) and a theorem about
@@ -112,16 +118,16 @@ If $A$ is a Dedekind domain then the \emph{height one spectrum} of $A$ is
 the nonzero prime ideals of~$A$. Note that because we stick to the literature,
 rather than to common sense, fields are Dedekind domains in mathlib, and the
 height one spectrum of a field is empty. The reason I don't like allowing fields
-to be Dedekind domain is that geometrically the standard definition of Dedekind
+to be Dedekind domains is that geometrically the standard definition of Dedekind
 domain is ``smooth affine curve, or a point''. But many theorems in algebraic geometry
-begin ``let $C$ be a smooth curve''.
+begin ``let $C$ be a smooth curve'', not ``let $C$ be a smooth curve or a point.''
 
 There are two steps to the definition of the map; the first is to define it locally
 on the individual completions and the second is to glue everything together. Let's
 start with the local construction.
 
 Say we're in the AKLB setup above, with $L/K$ a finite separable extension.
-Let $w$ be a finite place of $L$ lying above a finite place $v$ of $K$.
+Let $w$ be a nonzero prime of $B$ lying above a nonzero prime $v$ of $A$.
 We put the $w$-adic topology on $L$ and the $v$-adic topology on~$K$. We now claim
 that inclusion $i:K\to L$ is continuous with respect to these topologies. This
 claim follows from
