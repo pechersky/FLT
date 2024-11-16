@@ -1,5 +1,37 @@
 import Mathlib
+/-!
 
+# Restricted products
+
+Basic idea: a (possibly infinite) collection of groups G_i all equipped with subgroups H_i.
+The restricted product is the subset of ∏_i G_i consisting of elements which are in H_i
+for all but finitely many i.
+
+I've got some kind of general set-up below. Need some boilerplate.
+
+I've got the type (G_i are types, H_i are subtypes).
+
+Need; if G_i are groups and H_i are subgroups, the restricted product is a group
+Same for CommRing.
+
+More interestingly, if the G_i are topological spaces and the H_i are...what?
+Then we get a topological space structure on the restricted product.
+
+In my example, the H_i are compact open subspaces.
+
+In my example, the G_i are abelian groups, and the H_i are compact open subgroups.
+
+In this case, there's a short exact sequence
+
+0 -> ∏_i H_i -> restricted product of G_i -> ⨁ (G_i / H_i) -> 0
+
+The restricted product is topologised such that ∏_i H_i is open with the product topology
+and you muddle on from that.
+
+
+
+
+-/
 section defs
 
 variable (I : Type*) (G : I → Type*) {Ht : I → Type*} (H : ∀ i, Ht i) [∀ i, SetLike (Ht i) (G i)]

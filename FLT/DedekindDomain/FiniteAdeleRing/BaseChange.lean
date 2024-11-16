@@ -118,17 +118,30 @@ open scoped TensorProduct -- ⊗ notation for tensor product
 noncomputable local instance : Algebra K (ProdAdicCompletions B L) := RingHom.toAlgebra <|
   (algebraMap L (ProdAdicCompletions B L)).comp (algebraMap K L)
 
--- These should be easy but I've just noticed that it should be an alghom
+#check TensorProduct.lift
+
+/-
+Algebra.TensorProduct.lift.{uR, uS, uA, uB, uC} {R : Type uR} {S : Type uS} {A : Type uA} {B : Type uB} {C : Type uC}
+  [CommSemiring R] [CommSemiring S] [Algebra R S] [Semiring A] [Algebra R A] [Algebra S A] [IsScalarTower R S A]
+  [Semiring B] [Algebra R B] [Semiring C] [Algebra S C] [Algebra R C] [IsScalarTower R S C] (f : A →ₐ[S] C)
+  (g : B →ₐ[R] C) (hfg : ∀ (x : A) (y : B), Commute (f x) (g y)) : A ⊗[R] B →ₐ[S] C
+-/
+-- These should be easy but I've just noticed that it should be →ₐ[L] not →ₐ[K]
 noncomputable def ProdAdicCompletions.baseChange :
-    L ⊗[K] ProdAdicCompletions A K →ₗ[K] ProdAdicCompletions B L := TensorProduct.lift <| {
-  toFun := fun l ↦ {
-    toFun := fun kv w ↦ l • (adicCompletion_comap_algHom A K w (kv (comap A w)))
-    map_add' := sorry
-    map_smul' := sorry
-  }
-  map_add' := sorry
-  map_smul' := sorry
-}
+    L ⊗[K] ProdAdicCompletions A K →ₐ[K] ProdAdicCompletions B L := Algebra.TensorProduct.lift
+  sorry sorry sorry
+--     {
+--   toFun := fun l ↦ {
+--     toFun := fun kv w ↦ l • (adicCompletion_comap_algHom A K w (kv (comap A w)))
+--     map_add' := sorry
+--     map_smul' := sorry
+--   }
+--   map_zero' := sorry
+--   map_one' := sorry
+--   map_add' := sorry
+--   map_mul' := sorry
+--   commutes' := sorry
+-- }
 
 -- This is harder
 theorem ProdAdicCompletions.baseChange_surjective :
