@@ -45,37 +45,21 @@ namespace Ring
 
 variable (R : ι → Type*) [∀ i, Ring (R i)] (A : (i : ι) → Subring (R i))
 
-def RestrictedProduct := {x : (i : ι) → R i // ∀ᶠ i in Filter.cofinite, x i ∈ A i}
+def Subring.restrictedProduct : Subring ((i : ι) → R i) where
+  carrier := {x : (i : ι) → R i | ∀ᶠ i in Filter.cofinite, x i ∈ A i}
+  mul_mem' {x y} hx hy := by
+    --simp only [Set.mem_setOf_eq] at hx hy ⊢
+    exact sorry
+  one_mem' := sorry
+  add_mem' {x y} hx hy := sorry
+  zero_mem' := sorry
+  neg_mem' {x} hx := sorry
+
+def RestrictedProduct : Type _ := Subring.restrictedProduct R A
+
+instance : Ring (RestrictedProduct R A) := inferInstanceAs (Ring <| Subring.restrictedProduct R A)
 
 namespace RestrictedProduct
-
-instance (R : ι → Type*) [∀ i, Ring (R i)] (A : (i : ι) → Subring (R i)) :
-    Ring (RestrictedProduct R A) where
-  add x y := ⟨fun i ↦ x.1 i + y.1 i, sorry⟩
-  add_assoc := sorry
-  zero := ⟨fun i ↦ 0, sorry⟩
-  zero_add := sorry
-  add_zero := sorry
-  nsmul n x := ⟨fun i ↦ n • x.1 i, sorry⟩ -- is this a good idea or not? Someone who understands
-                                          -- nsmul diamond issues should be asked about this.
-  nsmul_zero := sorry -- ditto
-  nsmul_succ := sorry -- ditto
-  add_comm := sorry
-  mul x y := ⟨fun i ↦ x.1 i * y.1 i, sorry⟩
-  left_distrib := sorry
-  right_distrib := sorry
-  zero_mul := sorry
-  mul_zero := sorry
-  mul_assoc := sorry
-  one := ⟨fun i ↦ 1, sorry⟩
-  one_mul := sorry
-  mul_one := sorry
-  neg x := ⟨fun i ↦ -x.1 i, sorry⟩
-  neg_add_cancel := sorry
-  zsmul z x := ⟨fun i ↦ z • x.1 i, sorry⟩ -- similarly this should be checked.
-  zsmul_zero' := sorry -- ditto
-  zsmul_succ' := sorry -- ditto
-  zsmul_neg' := sorry -- ditto
 
 def structureMap : (∀ i, A i) →+* (RestrictedProduct R A) where
   toFun x := ⟨fun i ↦ (x i).1, sorry⟩
