@@ -28,7 +28,8 @@ suppress_compilation
 
 open DedekindDomain
 
-open scoped NumberField TensorProduct
+open NumberField
+open scoped TensorProduct
 
 variable (K : Type*) [Field K] [NumberField K]
 variable (D : Type*) [DivisionRing D] [Algebra K D]
@@ -38,6 +39,10 @@ local instance : TopologicalSpace (FiniteAdeleRing (𝓞 K) K ⊗[K] D) :=
 local instance : IsActionTopology (FiniteAdeleRing (𝓞 K) K) ((FiniteAdeleRing (𝓞 K) K) ⊗[K] D) :=
   ⟨rfl⟩
 
+local instance : TopologicalSpace (AdeleRing K ⊗[K] D) :=
+  actionTopology (AdeleRing K) _
+local instance : IsActionTopology (AdeleRing K) ((AdeleRing K) ⊗[K] D) :=
+  ⟨rfl⟩
 variable [FiniteDimensional K D]
 
 instance : TopologicalRing ((FiniteAdeleRing (𝓞 K) K) ⊗[K] D) :=

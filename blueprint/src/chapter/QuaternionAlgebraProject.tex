@@ -269,7 +269,17 @@ So (5) and (6) apply again, giving us $h(b)=\prod_v h_v(b_v)$, a finite product.
 
 \section{The product formula}
 
-Let $K$ be a number field, and let $B$ be a finite-dimensional $K$-algebra (not necessarily
+Let's start with $K=\Q$ and $A=\mathbb{A}_{\Q}$. We know that $A$ is a locally compact topological
+ring.
+
+\begin{lemma} If $0\not=x\in\Q$ then $h_A(x)=1.$
+\end{lemma}
+\begin{proof} We can prove this by an explicit calculation. Write $x=\pm\prod_p p^{e_p}$
+  with $e_p\in\Z$, almost all $0$. Then $|x|_p=p^{-e_p}$ for $p$ prime, and
+  $|x|_\infty=\prod_p p^{e_p}$, so $\prod_p|x|_p\times|x|_\infty=1$.
+\end{proof}
+
+Now let $K$ be a number field, and let $B$ be a finite-dimensional $K$-algebra (not necessarily
 commutative), containing an $\mathcal{O}_K$-order. Set $A=B\otimes_K\mathcal{A}_K$.
 Then $A$ is a locally compact topological ring (give it the module topology coming from
 $\mathcal{A}_K$, which is just the product topology if one chooses a $K$-basis for $B$).
@@ -279,12 +289,28 @@ What I believe to be true is
 \begin{theorem} Write $h_A$ for the Haar character of $A$.
   If $b\in B^\times$, regarded as an element of $A^\times$, then $h_A(b)=1.$
 \end{theorem}
-\begin{proof} WLOG $K=\Q$, as $B\otimes_K\mathcal{A}_K=B\otimes_{\Q}\mathcal{A}_{\Q}$.
-  There must now be some way to reduce it to the case $B=\Q$. And then it's just
-  the product formula.
-\end{proof}
 
-This proof needs some work.
+Here is a thought about how one might prove this.
+
+Let $R$ be a locally compact commutative topological
+ring and let $A$ be an $R$-algebra (not necessarily commutative), which is finite
+and free as an $R$-module. Then $A$ (with the $R$-module topology) is also locally compact
+and we have $\nu:A\to R$ a monoid homomorphism, the norm map, sending $a\in A$ to the
+determinant of the $R$-linear map $A\to A$ given by multiplication by $a$. Is it
+true that $h_A(a)=h_R(\nu(a))$? This would be a good thing to prove. We will need things like:
+
+1) Fix an additive Haar measure $\mu$ on $R$. Pick an $R$-basis for $A$, so $A=R^n$. Then
+the product of $\mu$s on the factors is an additive Haar measure on $A$.
+
+2) "matrix changes volume by the size of the determinant". I'm not entirely sure what
+the correct statement is here.
+
+If this is true, then how about this for a proof of the theorem above:
+
+\begin{proof} WLOG $K=\Q$, as $B\otimes_K\mathbb{A}_K=B\otimes_{\Q}\mathbb{A}_{\Q}$.
+  Now if $b\in B$ then $h_A(b)=h_{\mathbb{A}_{\Q}}(det(b))$, but $det(b)\in\Q^\times$
+  so we're done.
+\end{proof}
 
 \section{Proof of Fujisaki's lemma}
 
